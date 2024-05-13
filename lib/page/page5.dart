@@ -2,8 +2,7 @@ import 'package:first_demo/page/page5_vm.dart';
 import 'package:first_demo/route/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_swiper_view/flutter_swiper_view.dart';
-
-import '../datas/banner_data.dart';
+import 'package:provider/provider.dart';
 
 class Page5 extends StatefulWidget {
   @override
@@ -12,47 +11,56 @@ class Page5 extends StatefulWidget {
 
 class _Page5State extends State<Page5> {
 
-  List<BannerDataItem>? bannerData;
-
+  Page5ViewModal p5v = Page5ViewModal();
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return ChangeNotifierProvider<Page5ViewModal>(create: (context){
+      return p5v;
+    }, child: Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
           child: Column(
             children: [
               _banner(),
-              ListView.builder(
-                  physics: NeverScrollableScrollPhysics(),
-                  shrinkWrap: true,
-                  itemCount: 50,
-                  itemBuilder: (context, index) {
-                    return _listItemView();
-                  }),
+              _listView(),
             ],
           ),
         ),
       ),
-    );
+    ),);
   }
 
   Widget _banner() {
-    return Container(
-      width: double.infinity,
-      height: 200,
-      child: Swiper(
-        itemCount: bannerData?.length ?? 0,
+    print('_banner 刷新');
+    return Consumer<Page5ViewModal>(builder: (context, vm, child) {
+      return Container(
+        width: double.infinity,
+        height: 200,
+        child: Swiper(
+          itemCount: vm.bannerData?.length ?? 0,
+          itemBuilder: (context, index) {
+            return Container(
+              width: double.infinity,
+              margin: EdgeInsets.all(10),
+              child: Image.network(vm.bannerData?[index].imagePath ?? '', fit: BoxFit.fill,),
+            );
+          },
+          autoplay: true,
+        ),
+      );
+    });
+  }
+
+  Widget _listView(){
+    print('_listView 刷新');
+    return ListView.builder(
+        physics: NeverScrollableScrollPhysics(),
+        shrinkWrap: true,
+        itemCount: 50,
         itemBuilder: (context, index) {
-          return Container(
-            width: double.infinity,
-            margin: EdgeInsets.all(10),
-            child: Image.network(bannerData?[index].imagePath ?? '', fit: BoxFit.fill,),
-          );
-        },
-        autoplay: true,
-      ),
-    );
+          return _listItemView();
+        });
   }
 
   Widget _listItemView() {
@@ -125,11 +133,6 @@ class _Page5State extends State<Page5> {
   @override
   void initState() {
     super.initState();
-    getBannerData();
-  }
-
-  void getBannerData()async{
-    bannerData = await Page5ViewModal.getBanner();
-    setState(() {});
+    p5v.getBanner();
   }
 }
