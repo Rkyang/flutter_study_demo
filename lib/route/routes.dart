@@ -1,6 +1,6 @@
 import 'package:first_demo/main.dart';
-import 'package:first_demo/page5.dart';
-import 'package:first_demo/page5_child.dart';
+import 'package:first_demo/page/page5.dart';
+import 'package:first_demo/page/page5_child.dart';
 import 'package:flutter/material.dart';
 
 class RoutePath{

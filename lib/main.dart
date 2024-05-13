@@ -1,8 +1,8 @@
 import 'package:first_demo/common/Dialog.dart';
-import 'package:first_demo/page2.dart';
-import 'package:first_demo/page3.dart';
-import 'package:first_demo/page4.dart';
-import 'package:first_demo/page5.dart';
+import 'package:first_demo/page/page2.dart';
+import 'package:first_demo/page/page3.dart';
+import 'package:first_demo/page/page4.dart';
+import 'package:first_demo/page/page5.dart';
 import 'package:first_demo/route/routes.dart';
 import 'package:flutter/material.dart';
 

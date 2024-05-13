@@ -1,5 +1,5 @@
-import 'package:first_demo/page2.dart';
-import 'package:first_demo/page3.dart';
+import 'package:first_demo/page/page2.dart';
+import 'package:first_demo/page/page3.dart';
 import 'package:flutter/material.dart';
 
 class page4 extends StatefulWidget {

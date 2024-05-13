@@ -1,6 +1,9 @@
+import 'package:first_demo/page/page5_vm.dart';
 import 'package:first_demo/route/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_swiper_view/flutter_swiper_view.dart';
+
+import '../datas/banner_data.dart';
 
 class Page5 extends StatefulWidget {
   @override
@@ -8,6 +11,10 @@ class Page5 extends StatefulWidget {
 }
 
 class _Page5State extends State<Page5> {
+
+  List<BannerDataItem>? bannerData;
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -33,15 +40,14 @@ class _Page5State extends State<Page5> {
   Widget _banner() {
     return Container(
       width: double.infinity,
-      height: 150,
+      height: 200,
       child: Swiper(
-        itemCount: 3,
+        itemCount: bannerData?.length ?? 0,
         itemBuilder: (context, index) {
           return Container(
-            height: 150,
             width: double.infinity,
-            color: Colors.green,
             margin: EdgeInsets.all(10),
+            child: Image.network(bannerData?[index].imagePath ?? '', fit: BoxFit.fill,),
           );
         },
         autoplay: true,
@@ -114,5 +120,16 @@ class _Page5State extends State<Page5> {
         ),
       ),
     );
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    getBannerData();
+  }
+
+  void getBannerData()async{
+    bannerData = await Page5ViewModal.getBanner();
+    setState(() {});
   }
 }

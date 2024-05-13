@@ -31,8 +31,12 @@ dependencies:
   flutter:
     sdk: flutter
   get: ^4.6.6
+#  网络请求
   dio: ^5.4.3+1
+#  banner轮播图
   flutter_swiper_view: ^1.1.8
+#  状态管理
+  provider: ^6.1.2
 
 
   # The following adds the Cupertino Icons font to your application.
