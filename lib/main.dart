@@ -1,12 +1,13 @@
 import 'package:first_demo/common/Dialog.dart';
+import 'package:first_demo/http/dio_http.dart';
 import 'package:first_demo/page/page2.dart';
 import 'package:first_demo/page/page3.dart';
 import 'package:first_demo/page/page4.dart';
-import 'package:first_demo/page/page5.dart';
 import 'package:first_demo/route/routes.dart';
 import 'package:flutter/material.dart';
 
 main() {
+  DioHttp.instance().initDio('https://www.wanandroid.com/');
   runApp(MaterialApp(
       theme: ThemeData(),
       onGenerateRoute: Routes.generateRoute,
