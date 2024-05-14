@@ -1,3 +1,4 @@
+import 'package:first_demo/datas/list_view_data.dart';
 import 'package:first_demo/page/page5_vm.dart';
 import 'package:first_demo/route/routes.dart';
 import 'package:flutter/material.dart';
@@ -19,6 +20,7 @@ class _Page5State extends State<Page5> {
       return p5v;
     }, child: Scaffold(
       body: SafeArea(
+        // SingleChildScrollView 单体全局滚动
         child: SingleChildScrollView(
           child: Column(
             children: [
@@ -54,16 +56,24 @@ class _Page5State extends State<Page5> {
 
   Widget _listView(){
     print('_listView 刷新');
-    return ListView.builder(
-        physics: NeverScrollableScrollPhysics(),
-        shrinkWrap: true,
-        itemCount: 50,
-        itemBuilder: (context, index) {
-          return _listItemView();
-        });
+    return Consumer<Page5ViewModal>(builder: (context, vm, child){
+      return ListView.builder(
+          physics: NeverScrollableScrollPhysics(),
+          shrinkWrap: true,
+          itemCount: vm.listviewDataList?.length ?? 0,
+          itemBuilder: (context, index) {
+            return _listItemView(vm, index);
+          });
+    });
   }
 
-  Widget _listItemView() {
+  Widget _listItemView(Page5ViewModal vm, int index) {
+    var name;
+    if (vm.listviewDataList?[index].author?.isNotEmpty == true) {
+      name = vm.listviewDataList?[index].author ?? '';
+    } else {
+      name = vm.listviewDataList?[index].shareUser ?? '';
+    }
     return InkWell(
       onTap: () {
         Navigator.pushNamed(context, RoutePath.page5Child,
@@ -80,6 +90,7 @@ class _Page5State extends State<Page5> {
         padding: EdgeInsets.all(10),
         margin: EdgeInsets.fromLTRB(10, 10, 10, 0),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Row(
               children: [
@@ -89,11 +100,16 @@ class _Page5State extends State<Page5> {
                 SizedBox(
                   width: 10,
                 ),
-                Text('Another'),
+                Text(name,
+                style: TextStyle(
+                  fontSize: 17,
+                  color: Colors.black
+                ),
+                ),
                 Expanded(
                   child: SizedBox(),
                 ),
-                Text('2024-05-10 12:00'),
+                Text(vm.listviewDataList?[index].niceShareDate ?? ''),
                 SizedBox(
                   width: 20,
                 ),
@@ -106,16 +122,18 @@ class _Page5State extends State<Page5> {
                 ),
               ],
             ),
+            SizedBox(height: 5,),
             Text(
-              'title title title title title ',
+              vm.listviewDataList?[index].title ?? '',
               style: TextStyle(
-                fontSize: 25,
+                fontSize: 20,
               ),
             ),
+            SizedBox(height: 5,),
             Row(
               children: [
                 Text(
-                  'Tag',
+                  vm.listviewDataList?[index].chapterName ?? '',
                   style: TextStyle(color: Colors.green),
                 ),
                 Expanded(
@@ -134,5 +152,6 @@ class _Page5State extends State<Page5> {
   void initState() {
     super.initState();
     p5v.getBanner();
+    p5v.getListView();
   }
 }
